@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<h1>Kyle Memler's Rive Portfolio</h1>
+
+<body>
+
+
+    <script src="https://unpkg.com/@rive-app/canvas@2.21.3"></script>
+
+
+    <!-- --------------------------------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------------------------------------ -->
+
+
+    <div class="section02">
+        <h2>Workspace in Motion</h2>
+        <p class="paragraph500">An interactive self-portrait at my desk surrounded by stuff that's supposed to boost productivity. Hover around to find hidden animations and don't forget to give some husky love.</p>
+        <div class="container01">
+            <canvas id="canvas04" width="800" height="800"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const rComputerCharacter = new rive.Rive({
+            src: "computer_character.riv",
+            canvas: document.getElementById("canvas04"),
+            autoplay: true,
+            artboard: "computer_character",
+            stateMachines: "State Machine 1",
+            onLoad: () => {
+                rComputerCharacter.resizeDrawingSurfaceToCanvas();
+            },
+        });
+    </script>
+
+    <!-- --------------------------------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------------------------------------ -->
+
+    <div class="section01">
+        <h2>Help Fred</h2>
+        <p class="paragraph500">Fred’s fashion dilemma is your problem now. Change his look and watch him give you a smile of encouragement or maybe just a sarcastic sigh. Bonus points for keeping him off his phone.</p>
+        <div class="container01">
+            <canvas id="canvas10" width="1600" height="800"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const rCharacterSelection = new rive.Rive({
+            src: "character_selection.riv",
+            canvas: document.getElementById("canvas10"),
+            autoplay: true,
+            artboard: "Artboard",
+            stateMachines: "State Machine 1",
+            onLoad: () => {
+                rCharacterSelection.resizeDrawingSurfaceToCanvas();
+            },
+        });
+    </script>
+
+    <!-- --------------------------------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------------------------------------ -->
+
+    <div class="section02">
+        <h2>Ambient Icons</h2>
+        <p class="paragraph500">Because nothing says 'interactive animation' like icons that just chill until you poke them. Hover to see some action: from rockets to light bulbs, all trying to impress with minimal effort.</p>
+        
+        <div class="container01">
+            <canvas id="canvas05" width="2000" height="600"></canvas>
+        </div>
+        <div class="container01">
+            <!-- Input field and button to change the Rive text -->
+            <label for="textInput">Body text:</label>
+            <input type="text" id="textInput" placeholder="Type your text here">
+            <button id="submitText">Change Text</button>
+        </div>
+    
+    </div>
+    
+    <script>
+        let rIcons;
+        
+        // Initialize the Rive element
+        rIcons = new rive.Rive({
+            src: "share_file.riv",
+            canvas: document.getElementById("canvas05"),
+            autoplay: true,
+            artboard: "Artboard",
+            stateMachines: "State Machine 1",
+            onLoad: () => {
+                rIcons.resizeDrawingSurfaceToCanvas();
+            },
+        });
+    
+        // Function to update the text in the Rive element
+        function updateRiveText(newText) {
+            if (rIcons) {
+                rIcons.setTextRunValue("BodyText", newText);
+            }
+        }
+    
+        // Event listener for the button to change the text
+        document.getElementById("submitText").addEventListener("click", () => {
+            const newText = document.getElementById("textInput").value;
+            updateRiveText(newText);  // Change the Rive text to the user input
+        });
+    </script>
+
+
+
+    <!-- --------------------------------------------------------------------------------------------------------
+ ------------------------------------------------------------------------------------------------------------ -->
+
+
+
+    <div class="section01">
+        <h2>What time is it?</h2>
+        <p class="paragraph500">See the sun move across the sky in real time. It’s like looking out a window, except you’re still staring at a screen. Adjust the scroll bar if you want to mess with time itself.</p>
+        <!-- <div class="container01">
+            <p id="location">Fetching location...</p>
+        </div> -->
+        <div class="container01">
+            <canvas id="canvas09" width="500" height="500"></canvas>
+        </div>
+        <label for="mySliderTime">Time: </label>
+        <input type="range" id="mySliderTime" min="0" max="100" value="0" oninput="updateValueTime(this.value)">
+        <span id="sliderValueTime">0</span>
+    </div>
+
+    <script>
+        scrollTime = 0;
+        isUserDragging = false;
+        function updateDateTime() {
+            if (!isUserDragging) {
+                const date = new Date();
+                const hours = date.getHours();
+                const minutes = date.getMinutes();
+                const seconds = date.getSeconds();
+                const day = date.getDay();
+                const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                const dayOfWeek = daysOfWeek[day];
+                const formattedHours = hours < 10 ? '0' + hours : hours; // Adding leading zero if needed
+                const formattedMinutes = minutes < 10 ? '0' + minutes : minutes; // Adding leading zero if needed
+                const formattedSeconds = seconds < 10 ? '0' + seconds : seconds; // Adding leading zero if needed
+
+                // Calculate timePercent as a percentage of the day passed, including seconds
+                const totalSecondsPassed = (hours * 3600) + (minutes * 60) + seconds; // Seconds passed since midnight
+                const totalSecondsInDay = 24 * 60 * 60; // Total seconds in a day (86400 seconds)
+                const timePercent = ((totalSecondsPassed / totalSecondsInDay) * 100).toFixed(3); // Convert to percentage
+
+                // Displaying date, time, and day
+                // document.getElementById('location').textContent = `${date} -------- Date: ${date.toDateString()}, Time: ${formattedHours}:${formattedMinutes}, Day: ${dayOfWeek}, timePercent: ${timePercent}%`;
+                scrollTime.value = timePercent;
+                document.getElementById("sliderValueTime").textContent = timePercent + "%";
+                document.getElementById("mySliderTime").value = timePercent;
+            }
+        }
+
+        // Call the function to update the content
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        const rTime = new rive.Rive({
+            src: "timeanimation.riv",
+            canvas: document.getElementById("canvas09"),
+            autoplay: true,
+            stateMachines: "State Machine 1",
+            onLoad: () => {
+                rTime.resizeDrawingSurfaceToCanvas();
+                const inputs = rTime.stateMachineInputs("State Machine 1");  // Get all inputs
+                console.log(inputs)
+                scrollTime = inputs.find(i => i.name === 'scroll');  // Select trigger from inputs
+            }
+        })
+        function updateValueTime(val) {
+            document.getElementById("sliderValueTime").textContent = val;
+            scrollTime.value = val;
+        }
+        // Event listeners to track when the user starts and stops dragging the slider
+        const slider = document.getElementById('mySliderTime');
+        slider.addEventListener('mousedown', () => {
+            isUserDragging = true;  // User is dragging
+        });
+        slider.addEventListener('mouseup', () => {
+            isUserDragging = false;  // User stopped dragging
+        });
+    </script>
+
+
+    <!-- --------------------------------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------------------------------------ -->
+
+
+    <div class="section02">
+        <h2>Scrolling Graphs</h2>
+        <p class="paragraph500">Who knew data could be so fun? Scroll through as if these were actually living on a webpage.</p>
+        <div class="container01">
+            <canvas id="canvas08" width="500" height="500"></canvas>
+        </div>
+        <label for="mySlider">Scroll Amount: </label>
+        <input type="range" id="mySlider" min="0" max="205" value="0" oninput="updateValue(this.value)">
+        <span id="sliderValue">0</span>
+    </div>
+    <script>
+        const rScroll = new rive.Rive({
+            src: "scrollinggraphs.riv",
+            canvas: document.getElementById("canvas08"),
+            autoplay: true,
+            artboard: "Main",
+            stateMachines: "State Machine 1",
+            onLoad: () => {
+                rScroll.resizeDrawingSurfaceToCanvas();
+                const inputs = rScroll.stateMachineInputs("State Machine 1");  // Get all inputs
+                console.log(inputs)
+                scroll = inputs.find(i => i.name === 'scroll');  // Select trigger from inputs
+            }
+        })
+
+        function updateValue(val) {
+            document.getElementById("sliderValue").textContent = val;
+            scroll.value = val;
+        }
+    </script>
+
+    <!-- --------------------------------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------------------------------------ -->
+
+    <div class="section01">
+        <h2>Mx Logo</h2>
+        <p class="paragraph500">Here’s our company logo doing some cool tricks—because why settle for static when you can make it dance around your cursor? Click it for a little splash of fun.</p>
+        <div class="container01">
+            <canvas id="canvas06" width="800" height="800"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const rMxLogo = new rive.Rive({
+            src: "mxlogo.riv",
+            canvas: document.getElementById("canvas06"),
+            autoplay: true,
+            artboard: "MxLogo",
+            stateMachines: "state_machine_mx_logo",
+            onLoad: () => {
+                rMxLogo.resizeDrawingSurfaceToCanvas();
+            },
+        });
+    </script>
+
+
+    <!-- --------------------------------------------------------------------------------------------------------
+ ------------------------------------------------------------------------------------------------------------ -->
+
+
+    <div class="section02">
+        <h2>Keyboard Control</h2>
+        <p class="paragraph500">Type a few keys, watch some buttons get pressed. It’s interactivity at its finest—or laziest, depending on how you look at it.</p>
+        <div class="container01">
+            <canvas id="canvas07" width="500" height="500"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const rKeyboard = new rive.Rive({
+            src: "keyboard_testing.riv",
+            canvas: document.getElementById("canvas07"),
+            autoplay: true,
+            stateMachines: "State Machine 1",
+            onLoad: () => {
+                rKeyboard.resizeDrawingSurfaceToCanvas();
+                const inputs = rKeyboard.stateMachineInputs("State Machine 1");  // Get all inputs
+                console.log(inputs)
+                const trigger1 = inputs.find(i => i.name === 'Trigger 1');  // Select trigger from inputs
+                const trigger2 = inputs.find(i => i.name === 'Trigger 2');  // Select trigger from inputs
+                const trigger3 = inputs.find(i => i.name === 'Trigger 3');  // Select trigger from inputs
+                const trigger4 = inputs.find(i => i.name === 'Trigger 4');  // Select trigger from inputs
+
+                // Add event listener for keydown event
+                document.addEventListener('keydown', handleKeyPress);
+                // Function to handle key presses
+                function handleKeyPress(event) {
+                    switch (event.key) {
+                        case 'q':
+                            trigger1.fire();
+                            break;
+                        case 'w':
+                            trigger2.fire();
+                            break;
+                        case 'a':
+                            trigger3.fire();
+                            break;
+                        case 's':
+                            trigger4.fire();
+                            break;
+                    }
+                }
+            }
+        })
+    </script>
+
+    <!-- --------------------------------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------------------------------------ -->
+
+    <div class="section01">
+        <h2>Potato Clicker</h2>
+        <p class="paragraph500">A mobile game navigation bar with style—and some events that developers will love. Click on icons, get animations, and send code events like a pro.</p>
+        <div class="container01">
+            <canvas id="canvas03" width="500"></canvas>
+            <ul>
+                <p>Event triggered: </p>
+                <p id="navBarEvent">event_shop</p>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const stateMachineNameNavBar = "state_machine_nav_bar";
+        const eventName = document.getElementById("navBarEvent");
+        const rNavBar = new rive.Rive({
+            src: "nav_bar_v1.riv",
+            canvas: document.getElementById("canvas03"),
+            autoplay: true,
+            artboard: "nav_bar_v1",
+            stateMachines: stateMachineNameNavBar,
+            fit: rive.Fit.cover,
+            onLoad: () => {
+                rNavBar.resizeDrawingSurfaceToCanvas();
+            },
+        });
+
+        function onRiveEventReceived(riveEvent) {
+            const eventData = riveEvent.data;
+            console.log(eventData.name);
+            eventName.innerHTML = eventData.name;
+
+        }
+        rNavBar.on(rive.EventType.RiveEvent, onRiveEventReceived);
+    </script>
+
+    <!-- --------------------------------------------------------------------------------------------------------
+ ------------------------------------------------------------------------------------------------------------ -->
+
+    <div class="section02">
+        <h2>Water Bubble</h2>
+        <p class="paragraph500">Control the waves, speed up the water—basically play God with this floating bubble. It's way more fun than it sounds, trust me.</p>
+        <div class="container01">
+            <canvas id="canvas01" width="500" height="500"></canvas>
+        </div>
+    </div>
+    <script>
+        const rBubble = new rive.Rive({
+            src: "02_water_bubble.riv",
+            canvas: document.getElementById("canvas01"),
+            autoplay: true,
+            artboard: "WaterBubble-Comp",
+            stateMachines: "State Machine 1",
+            onLoad: () => {
+                rBubble.resizeDrawingSurfaceToCanvas();
+            },
+        });
+    </script>
+
+    <!-- --------------------------------------------------------------------------------------------------------
+ ------------------------------------------------------------------------------------------------------------ -->
+
+    <div class="section01">
+        <h2>Jumpball playground</h2>
+        <p class="paragraph500">Make this character jump all over the place. Click around and change things up—perfect for when you need a quick break from reality.</p>
+        <div class="container01">
+            <canvas id="canvas02" width="500" height="500"></canvas>
+            <div class="content">
+                <ul>
+                    <a id="jumpBackground" href="#">Background</a>
+                </ul>
+                <h3></h3>
+            </div>
+            <ul>
+                <p>Animation State: </p>
+                <p id="jumpballState"></p>
+                <p>Skin: </p>
+                <p id="bgSkin">Hello</p>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const buttonJumpSkin = document.getElementById("jumpSkin");
+        const buttonJumpBackground = document.getElementById("jumpBackground");
+        const stateMachineName = "State Machine 1";
+        const stateName = document.getElementById('jumpballState');
+        const skinName = document.getElementById("bgSkin");
+        var skin = 2;
+
+        const rJump = new rive.Rive({
+            src: "01_jumpball_redo.riv",
+            canvas: document.getElementById("canvas02"),
+            autoplay: true,
+            artboard: "JumpBall-Playground",
+            stateMachines: stateMachineName,
+            onLoad: () => {
+                rJump.resizeDrawingSurfaceToCanvas();
+                const inputs = rJump.stateMachineInputs(stateMachineName);  // Get all inputs
+                console.log(inputs)
+                const triggerBackground = inputs.find(i => i.name === 'BGSwitch');  // Select background trigger from inputs
+                buttonJumpBackground.onclick = (e) => {
+                    e.preventDefault();
+                    triggerBackground.fire();
+                }
+            },
+
+            // Display timeline animaiton names
+            onStateChange: (event) => {
+                stateName.innerHTML = event.data[0];
+                console.log("Animation: " + event.data[0])
+            },
+        });
+
+        // Toggle skin
+        function toggleSkin() {
+            if (skin === 1) {
+                skin = 2;
+            } else {
+                skin = 1;
+            }
+            skinName.innerHTML = skin;
+        }
+
+        // Event handler
+        function onRiveEventReceived(riveEvent) {
+            const eventData = riveEvent.data;
+            // Trigger function if event name matches
+            if (eventData.name === 'eventBackground') {
+                console.log("Event name:", eventData.name);
+                toggleSkin()
+            }
+            // open URL if embedded
+            if (eventData.type === rive.RiveEventType.OpenUrl) {
+                console.log("Open URL Event name:", eventData.name);
+                window.open(eventData.url);
+            }
+        }
+
+        // Add event listener and provide callback to handle Rive Event
+        rJump.on(rive.EventType.RiveEvent, onRiveEventReceived);
+
+    </script>
+
+</body>
+
+</html>
