@@ -1,4 +1,7 @@
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     text-decoration: none;
     font-family: 'Helvetica';
     text-align: center;
@@ -19,6 +22,19 @@ h3 {
     color: rgb(0, 0, 0);
 }
 
+a {
+    color: blue;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+a:visited {
+    color: purple;
+}
 
 body {
     height: 100vh;
@@ -53,29 +69,37 @@ body {
     padding: 10px;
 }
 
-.content{
+.content {
     text-align: center;
 }
 
-.paragraph500{
-    max-width: 400px; /* Set the maximum width for the paragraph */
-    margin: 0 auto;   /* Center the text if needed */
+.paragraph500 {
+    max-width: 400px;
+    /* Set the maximum width for the paragraph */
+    margin: 0 auto;
+    /* Center the text if needed */
 }
 
 #textInput {
-    width: 300px;  /* Set a fixed width for the input field */
-    padding: 10px; /* Add some padding for better appearance */
-    margin-right: 10px; /* Add some space between input and button */
+    width: 300px;
+    /* Set a fixed width for the input field */
+    padding: 10px;
+    /* Add some padding for better appearance */
+    margin-right: 10px;
+    /* Add some space between input and button */
 }
 
 #submitText {
-    width: 150px;  /* Set a fixed width for the button */
-    padding: 10px; /* Add padding for better appearance */
-    cursor: pointer; /* Change cursor to pointer when hovering */
-    text-align:center;
+    width: 150px;
+    /* Set a fixed width for the button */
+    padding: 10px;
+    /* Add padding for better appearance */
+    cursor: pointer;
+    /* Change cursor to pointer when hovering */
+    text-align: center;
 }
 
-a {
+a1 {
     background: rgb(185, 206, 240);
     padding: 1em;
     text-decoration: none;
@@ -86,5 +110,5 @@ a {
     width: 30%;
     display: inline-block;
     transition: background-color .3s;
+    cursor: pointer;
 }
-
